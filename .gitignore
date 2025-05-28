@@ -1,6 +1,7 @@
 ## Build folders
 **/bin/
 **/obj/
+**/*.cache
 
 ## User-specific files
 *.user
@@ -8,17 +9,18 @@
 *.userosscache
 *.sln.docstates
 
+## Visual Studio folders
+.vs/
+
 ## IDE folders
 .vscode/
 .vs/
+.idea/
 
 ## Visual Studio profiler
 *.psess
 *.vsp
 *.vspx
-
-## Rider
-.idea/
 
 ## Test Results
 TestResults/
@@ -27,8 +29,6 @@ TestResults/
 *.coveragexml
 
 ## dotCover
-.idea/.idea.DotSettings
-.idea/.idea.DotSettings.user
 *.dotCover
 
 ## Logs
@@ -36,7 +36,6 @@ TestResults/
 
 ## Temporary files
 *.tmp
-*.cache
 *.bak
 
 ## Auto-generated files by MSBuild
@@ -46,6 +45,7 @@ TestResults/
 **/*.AssemblyInfoInputs.cache
 **/*.GeneratedMSBuildEditorConfig.editorconfig
 **/*.genruntimeconfig.cache
+**/docker-compose.dcproj.FileListAbsolute.txt
 
 ## NuGet
 *.nupkg
@@ -61,20 +61,16 @@ artifacts/
 .sonarqube/
 
 ## JetBrains Rider
-.idea/
-
-## Others
 _ReSharper.*
 *.DotSettings.user
 *.DotSettings
 *.sln.iml
 
-# Backup & temporary
-*.bak
+## Backup & temporary
 *.orig
 *.swp
 
-# Coverage
+## Coverage
 coverage/
 coverage*.json
 coverage*.xml
