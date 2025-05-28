@@ -1,0 +1,81 @@
+## Build folders
+**/bin/
+**/obj/
+
+## User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## IDE folders
+.vscode/
+.vs/
+
+## Visual Studio profiler
+*.psess
+*.vsp
+*.vspx
+
+## Rider
+.idea/
+
+## Test Results
+TestResults/
+*.trx
+*.coverage
+*.coveragexml
+
+## dotCover
+.idea/.idea.DotSettings
+.idea/.idea.DotSettings.user
+*.dotCover
+
+## Logs
+*.log
+
+## Temporary files
+*.tmp
+*.cache
+*.bak
+
+## Auto-generated files by MSBuild
+**/*.csproj.FileListAbsolute.txt
+**/*.csproj.CopyComplete
+**/*.csproj.CoreCompileInputs.cache
+**/*.AssemblyInfoInputs.cache
+**/*.GeneratedMSBuildEditorConfig.editorconfig
+**/*.genruntimeconfig.cache
+
+## NuGet
+*.nupkg
+*.snupkg
+.nuget/
+project.lock.json
+project.fragment.lock.json
+artifacts/
+**/project.assets.json
+**/project.nuget.cache
+
+## SonarQube
+.sonarqube/
+
+## JetBrains Rider
+.idea/
+
+## Others
+_ReSharper.*
+*.DotSettings.user
+*.DotSettings
+*.sln.iml
+
+# Backup & temporary
+*.bak
+*.orig
+*.swp
+
+# Coverage
+coverage/
+coverage*.json
+coverage*.xml
+lcov.info
