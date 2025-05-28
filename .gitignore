@@ -3,6 +3,11 @@
 **/obj/
 **/*.cache
 
+## Visual Studio DesignTime Build
+**/DesignTimeBuild/
+*.dtbcache
+*.dtbcache.*
+
 ## User-specific files
 *.user
 *.suo
