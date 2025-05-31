@@ -20,7 +20,7 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
         public DateTime CreatedAt { get; private set; }
         public DateTime? CancelledAt { get; private set; }
 
-        private readonly List<SaleItem> _items = new List<SaleItem>();
+        private readonly List<SaleItem> _items = new();
         public IReadOnlyList<SaleItem> Items => _items.AsReadOnly();
 
         protected Sale() { }

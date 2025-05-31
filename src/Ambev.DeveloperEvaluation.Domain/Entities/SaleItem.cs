@@ -14,7 +14,7 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
         protected SaleItem() { }
         public SaleItem(ProductId product, int quantity, Money unitPrice)
         {
-            Id = Guid.NewGuid();
+            Id = Guid.Empty;
             Product = product ?? throw new ArgumentNullException(nameof(product));
             SetQuantity(quantity);
             UnitPrice = unitPrice ?? throw new ArgumentNullException(nameof(unitPrice));
