@@ -7,12 +7,12 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales.GetSales
     /// <summary>
     /// Profile for mapping between GetSales-related requests, commands, results and responses
     /// </summary>
-    public class GetSalesRequestProfile : Profile
+    public class GetSalesProfile : Profile
     {
         /// <summary>
         /// Initializes the mappings for GetSales operations
         /// </summary>
-        public GetSalesRequestProfile()
+        public GetSalesProfile()
         {
             // Request to Command mappings
             CreateMap<GetSalesRequest, GetSalesCommand>();

@@ -6,12 +6,12 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales.RemoveSaleItem
     /// <summary>
     /// Profile for mapping between RemoveSaleItem-related results and responses
     /// </summary>
-    public class RemoveSaleItemRequestProfile : Profile
+    public class RemoveSaleItemProfile : Profile
     {
         /// <summary>
         /// Initializes the mappings for RemoveSaleItem operations
         /// </summary>
-        public RemoveSaleItemRequestProfile()
+        public RemoveSaleItemProfile()
         {
             // Result to Response mappings
             CreateMap<RemoveSaleItemResult, RemoveSaleItemResponse>();

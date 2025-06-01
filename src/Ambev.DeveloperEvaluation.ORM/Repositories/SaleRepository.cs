@@ -41,7 +41,6 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
         public async Task<Sale?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
             return await _context.Sales
-                .AsNoTracking()
                 .Include(s => s.Items)
                 .FirstOrDefaultAsync(s => s.Id == id, cancellationToken);
         }
@@ -68,15 +67,6 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
         public async Task<Sale> UpdateAsync(Sale sale, CancellationToken cancellationToken = default)
         {
             _context.Update(sale);
-
-            foreach (var item in sale.Items)
-            {
-                if (item.Id == Guid.Empty)
-                    _context.Entry(item).State = EntityState.Added;                
-                else
-                    _context.Entry(item).State = EntityState.Modified;
-            }
-
             await _context.SaveChangesAsync(cancellationToken);
             return sale;
         }

@@ -7,12 +7,12 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales.CancelSale
     /// <summary>
     /// Profile for mapping between CancelSale-related results and responses
     /// </summary>
-    public class CancelSaleRequestProfile : Profile
+    public class CancelSaleProfile : Profile
     {
         /// <summary>
         /// Initializes the mappings for CancelSale operations
         /// </summary>
-        public CancelSaleRequestProfile()
+        public CancelSaleProfile()
         {
             // Result to Response mappings
             CreateMap<CancelSaleResult, CancelSaleResponse>()

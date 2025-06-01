@@ -37,7 +37,7 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
             TotalAmount = Money.Zero();
         }
 
-        public void AddItem(ProductId product, int quantity, Money unitPrice)
+        public SaleItem AddItem(ProductId product, int quantity, Money unitPrice)
         {
             if (Status == SaleStatus.Cancelled)
                 throw new InvalidOperationException("Cannot add items to a cancelled sale");
@@ -51,14 +51,16 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
                     throw new InvalidOperationException("Cannot have more than 20 identical items in a sale");
 
                 existingItem.UpdateQuantity(newQuantity);
+                RecalculateTotalAmount();
+                return existingItem;
             }
             else
             {
                 var newItem = new SaleItem(product, quantity, unitPrice);
                 _items.Add(newItem);
+                RecalculateTotalAmount();
+                return newItem;
             }
-
-            RecalculateTotalAmount();
         }
 
         public void RemoveItem(Guid itemId)

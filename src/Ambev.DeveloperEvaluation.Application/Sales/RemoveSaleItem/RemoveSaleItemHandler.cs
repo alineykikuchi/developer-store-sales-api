@@ -57,45 +57,15 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.RemoveSaleItem
             // Business rule: Cannot remove if it's the last item (would leave sale empty)
             if (sale.Items.Count <= 1)
                 throw new InvalidOperationException($"Cannot remove the last item from sale {sale.SaleNumber}. A sale must have at least one item");
-
-            // Store item details before removal
-            var removedItemDetails = new RemoveSaleItemDetails
-            {
-                Id = itemToRemove.Id,
-                ProductId = itemToRemove.Product.Id,
-                ProductName = itemToRemove.Product.Name,
-                ProductDescription = itemToRemove.Product.Description,
-                RemovedQuantity = itemToRemove.Quantity,
-                RemovedUnitPrice = itemToRemove.UnitPrice.Amount,
-                UnitPriceCurrency = itemToRemove.UnitPrice.Currency,
-                RemovedDiscountPercentage = itemToRemove.DiscountPercentage,
-                RemovedTotalAmount = itemToRemove.TotalAmount.Amount,
-                TotalAmountCurrency = itemToRemove.TotalAmount.Currency,
-                WasSuccessfullyRemoved = false
-            };
-
-            // Remove item from sale using domain logic
+            
             sale.RemoveItem(command.ItemId);
-
-            // Update the sale in the repository
             var updatedSale = await _saleRepository.UpdateAsync(sale, cancellationToken);
 
-            // Mark as successfully removed
+            var removedItemDetails = _mapper.Map<RemoveSaleItemDetails>(itemToRemove);
             removedItemDetails.WasSuccessfullyRemoved = true;
 
-            // Create result
-            var result = new RemoveSaleItemResult
-            {
-                SaleId = updatedSale.Id,
-                SaleNumber = updatedSale.SaleNumber,
-                RemovedItem = removedItemDetails,
-                NewSaleTotalAmount = updatedSale.TotalAmount.Amount,
-                Currency = updatedSale.TotalAmount.Currency,
-                TotalItemsCount = updatedSale.GetTotalItemsCount(),
-                HasDiscountedItems = updatedSale.HasDiscountedItems(),
-                SaleIsEmpty = !updatedSale.Items.Any(),
-                UpdatedAt = DateTime.UtcNow
-            };
+            var result = _mapper.Map<RemoveSaleItemResult>(updatedSale);
+            result.RemovedItem = removedItemDetails;
 
             return result;
         }

@@ -4,11 +4,6 @@ using Ambev.DeveloperEvaluation.Domain.ValueObjects;
 using AutoMapper;
 using FluentValidation;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ambev.DeveloperEvaluation.Application.Sales.AddItemToSale
 {
@@ -70,26 +65,13 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.AddItemToSale
             var unitPrice = new Money(command.UnitPrice, command.Currency);
 
             // Add item to sale using domain logic
-            sale.AddItem(productId, command.Quantity, unitPrice);
+            var addedItem = sale.AddItem(productId, command.Quantity, unitPrice);
 
             // Update the sale in the repository
             var updatedSale = await _saleRepository.UpdateAsync(sale, cancellationToken);
 
-            // Find the newly added item
-            var addedItem = updatedSale.Items.First(item => item.Product.Id == command.Product.Id);
-
-            // Map to result
-            var result = new AddItemToSaleResult
-            {
-                SaleId = updatedSale.Id,
-                SaleNumber = updatedSale.SaleNumber,
-                AddedItem = _mapper.Map<AddItemToSaleItemResult>(addedItem),
-                NewSaleTotalAmount = updatedSale.TotalAmount.Amount,
-                Currency = updatedSale.TotalAmount.Currency,
-                TotalItemsCount = updatedSale.GetTotalItemsCount(),
-                HasDiscountedItems = updatedSale.HasDiscountedItems(),
-                UpdatedAt = DateTime.UtcNow
-            };
+            var result = _mapper.Map<AddItemToSaleResult>(updatedSale);
+            result.AddedItem = _mapper.Map<AddItemToSaleItemResult>(addedItem);
 
             return result;
         }

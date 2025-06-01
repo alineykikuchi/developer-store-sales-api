@@ -82,40 +82,21 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.ModifySaleItem
             // Update the sale in the repository
             var updatedSale = await _saleRepository.UpdateAsync(sale, cancellationToken);
 
-            // Find the modified item after update
-            var modifiedItem = updatedSale.Items.First(item => item.Id == command.ItemId);
+            var modifiedItemDetails = _mapper.Map<ModifySaleItemDetails>(itemToModify);
 
-            // Create result with before/after comparison
-            var result = new ModifySaleItemResult
-            {
-                SaleId = updatedSale.Id,
-                SaleNumber = updatedSale.SaleNumber,
-                ModifiedItem = new ModifySaleItemDetails
-                {
-                    Id = modifiedItem.Id,
-                    ProductId = modifiedItem.Product.Id,
-                    ProductName = modifiedItem.Product.Name,
-                    ProductDescription = modifiedItem.Product.Description,
-                    PreviousQuantity = previousQuantity,
-                    NewQuantity = modifiedItem.Quantity,
-                    PreviousUnitPrice = previousUnitPrice,
-                    NewUnitPrice = modifiedItem.UnitPrice.Amount,
-                    UnitPriceCurrency = modifiedItem.UnitPrice.Currency,
-                    PreviousDiscountPercentage = previousDiscountPercentage,
-                    NewDiscountPercentage = modifiedItem.DiscountPercentage,
-                    PreviousTotalAmount = previousTotalAmount,
-                    NewTotalAmount = modifiedItem.TotalAmount.Amount,
-                    TotalAmountCurrency = modifiedItem.TotalAmount.Currency,
-                    QuantityChanged = command.Quantity.HasValue && previousQuantity != modifiedItem.Quantity,
-                    PriceChanged = command.UnitPrice.HasValue && Math.Abs(previousUnitPrice - modifiedItem.UnitPrice.Amount) > 0.01m,
-                    DiscountChanged = Math.Abs(previousDiscountPercentage - modifiedItem.DiscountPercentage) > 0.01m
-                },
-                NewSaleTotalAmount = updatedSale.TotalAmount.Amount,
-                Currency = updatedSale.TotalAmount.Currency,
-                TotalItemsCount = updatedSale.GetTotalItemsCount(),
-                HasDiscountedItems = updatedSale.HasDiscountedItems(),
-                UpdatedAt = DateTime.UtcNow
-            };
+            // Set the previous values for comparison
+            modifiedItemDetails.PreviousQuantity = previousQuantity;
+            modifiedItemDetails.PreviousUnitPrice = previousUnitPrice;
+            modifiedItemDetails.PreviousDiscountPercentage = previousDiscountPercentage;
+            modifiedItemDetails.PreviousTotalAmount = previousTotalAmount;
+
+            // Set the change flags
+            modifiedItemDetails.QuantityChanged = command.Quantity.HasValue && previousQuantity != itemToModify.Quantity;
+            modifiedItemDetails.PriceChanged = command.UnitPrice.HasValue && Math.Abs(previousUnitPrice - itemToModify.UnitPrice.Amount) > 0.01m;
+            modifiedItemDetails.DiscountChanged = Math.Abs(previousDiscountPercentage - itemToModify.DiscountPercentage) > 0.01m;
+            
+            var result = _mapper.Map<ModifySaleItemResult>(updatedSale);
+            result.ModifiedItem = modifiedItemDetails;
 
             return result;
         }

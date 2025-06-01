@@ -6,12 +6,12 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales.ModifySaleItem
     /// <summary>
     /// Profile for mapping between ModifySaleItem-related requests, commands, results and responses
     /// </summary>
-    public class ModifySaleItemRequestProfile : Profile
+    public class ModifySaleItemProfile : Profile
     {
         /// <summary>
         /// Initializes the mappings for ModifySaleItem operations
         /// </summary>
-        public ModifySaleItemRequestProfile()
+        public ModifySaleItemProfile()
         {
             // Request to Command mappings
             CreateMap<ModifySaleItemRequest, ModifySaleItemCommand>()

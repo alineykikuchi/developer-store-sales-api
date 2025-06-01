@@ -42,14 +42,6 @@ namespace Ambev.DeveloperEvaluation.Domain.Repositories
         Task<Sale> UpdateAsync(Sale sale, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Deletes a sale from the repository
-        /// </summary>
-        /// <param name="id">The unique identifier of the sale to delete</param>
-        /// <param name="cancellationToken">Cancellation token</param>
-        /// <returns>True if the sale was deleted, false otherwise</returns>
-        Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken = default);
-
-        /// <summary>
         /// Retrieves sales by customer ID
         /// </summary>
         /// <param name="customerId">The customer unique identifier</param>

@@ -5,6 +5,7 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
 {
     public class SaleItem : BaseEntity
     {
+        public Guid SaleId { get; set; }
         public ProductId Product { get; private set; }
         public int Quantity { get; private set; }
         public Money UnitPrice { get; private set; }
@@ -12,6 +13,7 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
         public Money TotalAmount { get; private set; }
 
         protected SaleItem() { }
+
         public SaleItem(ProductId product, int quantity, Money unitPrice)
         {
             Id = Guid.Empty;
@@ -37,7 +39,7 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
         private void ApplyDiscountRules()
         {
             DiscountPercentage = Quantity switch
-            {
+            {                
                 >= 10 and <= 20 => 20m,
                 >= 4 and < 10 => 10m,
                 _ => 0m
