@@ -5,7 +5,6 @@ using Ambev.DeveloperEvaluation.Application.Sales.GetSale;
 using Ambev.DeveloperEvaluation.Application.Sales.GetSales;
 using Ambev.DeveloperEvaluation.Application.Sales.ModifySaleItem;
 using Ambev.DeveloperEvaluation.Application.Sales.RemoveSaleItem;
-using Ambev.DeveloperEvaluation.Common.Validation;
 using Ambev.DeveloperEvaluation.WebApi.Common;
 using Ambev.DeveloperEvaluation.WebApi.Features.Sales.AddItemToSale;
 using Ambev.DeveloperEvaluation.WebApi.Features.Sales.CancelSale;
@@ -56,7 +55,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales
             var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
             if (!validationResult.IsValid)
-                return BadRequest(validationResult.Errors);
+                throw new ValidationException(validationResult.Errors);
 
             var command = _mapper.Map<CreateSaleCommand>(request);
             var response = await _mediator.Send(command, cancellationToken);
@@ -134,67 +133,26 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> CancelSale(Guid id, [FromBody] CancelSaleRequest request, CancellationToken cancellationToken)
         {
-            try
-            {
-                // Validate request
-                var requestValidator = new CancelSaleRequestValidator();
-                var requestValidationResult = await requestValidator.ValidateAsync(request, cancellationToken);
+            // Validate request
+            var requestValidator = new CancelSaleRequestValidator();
+            var requestValidationResult = await requestValidator.ValidateAsync(request, cancellationToken);
 
-                if (!requestValidationResult.IsValid)
-                    return BadRequest(new ApiResponse
-                    {
-                        Success = false,
-                        Message = "Validation failed",
-                        Errors = requestValidationResult.Errors.Select(e => new ValidationErrorDetail
-                        {
-                            Error = e.PropertyName,
-                            Detail = e.ErrorMessage
-                        }).ToList()
-                    });
+            if (!requestValidationResult.IsValid)
+                throw new ValidationException(requestValidationResult.Errors);
 
-                // Create command
-                var command = new CancelSaleCommand(id, request.CancellationReason);
-                var result = await _mediator.Send(command, cancellationToken);
+            // Create command
+            var command = new CancelSaleCommand(id, request.CancellationReason);
+            var result = await _mediator.Send(command, cancellationToken);
 
-                // Map to response
-                var response = _mapper.Map<CancelSaleResponse>(result);
+            // Map to response
+            var response = _mapper.Map<CancelSaleResponse>(result);
 
-                return Ok(new ApiResponseWithData<CancelSaleResponse>
-                {
-                    Success = true,
-                    Message = $"Sale {result.SaleNumber} has been successfully cancelled",
-                    Data = response
-                });
-            }
-            catch (KeyNotFoundException)
+            return Ok(new ApiResponseWithData<CancelSaleResponse>
             {
-                return NotFound(new ApiResponse
-                {
-                    Success = false,
-                    Message = $"Sale with ID {id} not found"
-                });
-            }
-            catch (InvalidOperationException ex)
-            {
-                return Conflict(new ApiResponse
-                {
-                    Success = false,
-                    Message = ex.Message
-                });
-            }
-            catch (ValidationException ex)
-            {
-                return BadRequest(new ApiResponse
-                {
-                    Success = false,
-                    Message = "Validation failed",
-                    Errors = ex.Errors.Select(e => new ValidationErrorDetail
-                    {
-                        Error = e.PropertyName,
-                        Detail = e.ErrorMessage
-                    }).ToList()
-                });
-            }
+                Success = true,
+                Message = $"Sale {result.SaleNumber} has been successfully cancelled",
+                Data = response
+            });
         }
 
         /// <summary>
@@ -211,69 +169,28 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> AddItemToSale(Guid saleId, [FromBody] AddItemToSaleRequest request, CancellationToken cancellationToken)
         {
-            try
+            // Validate request
+            var requestValidator = new AddItemToSaleRequestValidator();
+            var requestValidationResult = await requestValidator.ValidateAsync(request, cancellationToken);
+
+            if (!requestValidationResult.IsValid)
+                throw new ValidationException(requestValidationResult.Errors);
+
+            // Create command
+            var command = _mapper.Map<AddItemToSaleCommand>(request);
+            command.SaleId = saleId;
+
+            var result = await _mediator.Send(command, cancellationToken);
+
+            // Map to response
+            var response = _mapper.Map<AddItemToSaleResponse>(result);
+
+            return Created(string.Empty, new ApiResponseWithData<AddItemToSaleResponse>
             {
-                // Validate request
-                var requestValidator = new AddItemToSaleRequestValidator();
-                var requestValidationResult = await requestValidator.ValidateAsync(request, cancellationToken);
-
-                if (!requestValidationResult.IsValid)
-                    return BadRequest(new ApiResponse
-                    {
-                        Success = false,
-                        Message = "Validation failed",
-                        Errors = requestValidationResult.Errors.Select(e => new ValidationErrorDetail
-                        {
-                            Error = e.PropertyName,
-                            Detail = e.ErrorMessage
-                        }).ToList()
-                    });
-
-                // Create command
-                var command = _mapper.Map<AddItemToSaleCommand>(request);
-                command.SaleId = saleId;
-
-                var result = await _mediator.Send(command, cancellationToken);
-
-                // Map to response
-                var response = _mapper.Map<AddItemToSaleResponse>(result);
-
-                return Created(string.Empty, new ApiResponseWithData<AddItemToSaleResponse>
-                {
-                    Success = true,
-                    Message = $"Item {result.AddedItem.ProductName} successfully added to sale {result.SaleNumber}",
-                    Data = response
-                });
-            }
-            catch (KeyNotFoundException)
-            {
-                return NotFound(new ApiResponse
-                {
-                    Success = false,
-                    Message = $"Sale with ID {saleId} not found"
-                });
-            }
-            catch (InvalidOperationException ex)
-            {
-                return Conflict(new ApiResponse
-                {
-                    Success = false,
-                    Message = ex.Message
-                });
-            }
-            catch (ValidationException ex)
-            {
-                return BadRequest(new ApiResponse
-                {
-                    Success = false,
-                    Message = "Validation failed",
-                    Errors = ex.Errors.Select(e => new ValidationErrorDetail
-                    {
-                        Error = e.PropertyName,
-                        Detail = e.ErrorMessage
-                    }).ToList()
-                });
-            }
+                Success = true,
+                Message = $"Item {result.AddedItem.ProductName} successfully added to sale {result.SaleNumber}",
+                Data = response
+            });
         }
 
         /// <summary>
@@ -291,70 +208,29 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> ModifySaleItem(Guid saleId, Guid itemId, [FromBody] ModifySaleItemRequest request, CancellationToken cancellationToken)
         {
-            try
+            // Validate request
+            var requestValidator = new ModifySaleItemRequestValidator();
+            var requestValidationResult = await requestValidator.ValidateAsync(request, cancellationToken);
+
+            if (!requestValidationResult.IsValid)
+                throw new ValidationException(requestValidationResult.Errors);
+
+            // Create command
+            var command = _mapper.Map<ModifySaleItemCommand>(request);
+            command.SaleId = saleId;
+            command.ItemId = itemId;
+
+            var result = await _mediator.Send(command, cancellationToken);
+
+            // Map to response
+            var response = _mapper.Map<ModifySaleItemResponse>(result);
+
+            return Ok(new ApiResponseWithData<ModifySaleItemResponse>
             {
-                // Validate request
-                var requestValidator = new ModifySaleItemRequestValidator();
-                var requestValidationResult = await requestValidator.ValidateAsync(request, cancellationToken);
-
-                if (!requestValidationResult.IsValid)
-                    return BadRequest(new ApiResponse
-                    {
-                        Success = false,
-                        Message = "Validation failed",
-                        Errors = requestValidationResult.Errors.Select(e => new ValidationErrorDetail
-                        {
-                            Error = e.PropertyName,
-                            Detail = e.ErrorMessage
-                        }).ToList()
-                    });
-
-                // Create command
-                var command = _mapper.Map<ModifySaleItemCommand>(request);
-                command.SaleId = saleId;
-                command.ItemId = itemId;
-
-                var result = await _mediator.Send(command, cancellationToken);
-
-                // Map to response
-                var response = _mapper.Map<ModifySaleItemResponse>(result);
-
-                return Ok(new ApiResponseWithData<ModifySaleItemResponse>
-                {
-                    Success = true,
-                    Message = $"Item {result.ModifiedItem.ProductName} in sale {result.SaleNumber} has been successfully modified",
-                    Data = response
-                });
-            }
-            catch (KeyNotFoundException ex)
-            {
-                return NotFound(new ApiResponse
-                {
-                    Success = false,
-                    Message = ex.Message
-                });
-            }
-            catch (InvalidOperationException ex)
-            {
-                return Conflict(new ApiResponse
-                {
-                    Success = false,
-                    Message = ex.Message
-                });
-            }
-            catch (ValidationException ex)
-            {
-                return BadRequest(new ApiResponse
-                {
-                    Success = false,
-                    Message = "Validation failed",
-                    Errors = ex.Errors.Select(e => new ValidationErrorDetail
-                    {
-                        Error = e.PropertyName,
-                        Detail = e.ErrorMessage
-                    }).ToList()
-                });
-            }
+                Success = true,
+                Message = $"Item {result.ModifiedItem.ProductName} in sale {result.SaleNumber} has been successfully modified",
+                Data = response
+            });
         }
 
         /// <summary>
@@ -371,51 +247,19 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> RemoveSaleItem(Guid saleId, Guid itemId, CancellationToken cancellationToken)
         {
-            try
-            {
-                // Create command
-                var command = new RemoveSaleItemCommand(saleId, itemId);
-                var result = await _mediator.Send(command, cancellationToken);
+            // Create command
+            var command = new RemoveSaleItemCommand(saleId, itemId);
+            var result = await _mediator.Send(command, cancellationToken);
 
-                // Map to response
-                var response = _mapper.Map<RemoveSaleItemResponse>(result);
+            // Map to response
+            var response = _mapper.Map<RemoveSaleItemResponse>(result);
 
-                return Ok(new ApiResponseWithData<RemoveSaleItemResponse>
-                {
-                    Success = true,
-                    Message = $"Item {result.RemovedItem.ProductName} has been successfully removed from sale {result.SaleNumber}",
-                    Data = response
-                });
-            }
-            catch (KeyNotFoundException ex)
+            return Ok(new ApiResponseWithData<RemoveSaleItemResponse>
             {
-                return NotFound(new ApiResponse
-                {
-                    Success = false,
-                    Message = ex.Message
-                });
-            }
-            catch (InvalidOperationException ex)
-            {
-                return Conflict(new ApiResponse
-                {
-                    Success = false,
-                    Message = ex.Message
-                });
-            }
-            catch (ValidationException ex)
-            {
-                return BadRequest(new ApiResponse
-                {
-                    Success = false,
-                    Message = "Validation failed",
-                    Errors = ex.Errors.Select(e => new ValidationErrorDetail
-                    {
-                        Error = e.PropertyName,
-                        Detail = e.ErrorMessage
-                    }).ToList()
-                });
-            }
+                Success = true,
+                Message = $"Item {result.RemovedItem.ProductName} has been successfully removed from sale {result.SaleNumber}",
+                Data = response
+            });
         }
     }
 }
