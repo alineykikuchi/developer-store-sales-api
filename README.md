@@ -86,4 +86,4 @@ dotnet ef database update --project ../Ambev.DeveloperEvaluation.ORM --startup-p
 ## Desenvolvido por
 
 Aline Yumi Kikuchi  
-Email: aline_y_kikuchi@hotmail.com
+Email: aline_y.kikuchi@hotmail.com
