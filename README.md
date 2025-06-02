@@ -71,10 +71,10 @@ dotnet ef database update --project ../Ambev.DeveloperEvaluation.ORM --startup-p
 
 ## Melhorias futuras (TODO)
 
-- Implementar controle de permissão para associar venda apenas a um perfil
+- Implementar controle de permissão para associar venda apenas a um perfil (Customer ou Manager)
 - Adicionar integração com MongoDB para logs
 - Criar testes de integração e e2e
-- **Implementar cache com Redis**
+- Implementar cache com Redis
 - **Publicar eventos de domínio**:
   - SaleCreated
   - SaleModified
