@@ -84,6 +84,15 @@ dotnet ef database update --project ../Ambev.DeveloperEvaluation.ORM --startup-p
 
 ---
 
+## Testes com Postman
+
+Este repositório contém uma coleção do Postman para facilitar os testes da API.
+O arquivo da coleção está disponível na raiz do projeto:
+
+`Ambev.DeveloperEvaluation.postman_collection.json`
+
+---
+
 ## Desenvolvido por
 
 Aline Yumi Kikuchi  
