@@ -71,7 +71,7 @@ dotnet ef database update --project ../Ambev.DeveloperEvaluation.ORM --startup-p
 
 ## Melhorias futuras (TODO)
 
-- Implementar controle de permissão para associar venda apenas a um perfil (Customer ou Manager)
+- Implementar controle de permissão nos endpoints de venda, permitindo que apenas usuários com perfil Customer ou Manager possam associar vendas.
 - Adicionar integração com MongoDB para logs
 - Criar testes de integração e e2e
 - Implementar cache com Redis
