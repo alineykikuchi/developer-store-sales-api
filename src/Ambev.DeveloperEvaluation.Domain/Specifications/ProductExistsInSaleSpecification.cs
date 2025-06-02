@@ -13,7 +13,10 @@ namespace Ambev.DeveloperEvaluation.Domain.Specifications
 
         public bool IsSatisfiedBy(Sale sale)
         {
-            return sale.Items.Any(item => item.Product.Id == _productId);
+            if (sale?.Items == null || !sale.Items.Any())
+                return false;
+
+            return sale.Items.Any(item => item?.Product?.Id == _productId);
         }
     }
 }

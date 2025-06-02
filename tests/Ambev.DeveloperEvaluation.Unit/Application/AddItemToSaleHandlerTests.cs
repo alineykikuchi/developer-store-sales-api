@@ -159,7 +159,7 @@ public class AddItemToSaleHandlerTests
 
         // Then
         await act.Should().ThrowAsync<InvalidOperationException>()
-            .WithMessage($"Product {command.Product.Name} already exists in sale {sale.SaleNumber}. Use update endpoint to modify quantity");
+            .WithMessage($"Product {command.Product.Name} already exists in sale {sale.SaleNumber}. Use update endpoint to modify.");
     }
 
     /// <summary>

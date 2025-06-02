@@ -1,14 +1,10 @@
 ﻿using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Enums;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
+using Ambev.DeveloperEvaluation.Domain.Specifications;
 using AutoMapper;
 using FluentValidation;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ambev.DeveloperEvaluation.Application.Sales.CancelSale
 {
@@ -51,13 +47,12 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.CancelSale
             if (sale == null)
                 throw new KeyNotFoundException($"Sale with ID {command.Id} not found");
 
-            // Business rule: Can only cancel if sale is Active (not already cancelled)
-            if (sale.Status == SaleStatus.Cancelled)
+            var saleIsCancelled = new SaleIsCancelledSpecification();
+            if (saleIsCancelled.IsSatisfiedBy(sale))
                 throw new InvalidOperationException($"Sale {sale.SaleNumber} is already cancelled");
 
-            // Additional business rule: Check if sale can be cancelled
-            // (In a real scenario, you might check if it's invoiced, shipped, etc.)
-            if (!CanBeCancelled(sale))
+            var saleCanBeCancelled = new SaleCanBeCancelledSpecification();
+            if (!saleCanBeCancelled.IsSatisfiedBy(sale))
                 throw new InvalidOperationException($"Sale {sale.SaleNumber} cannot be cancelled. It may already be invoiced or processed");
 
             // Cancel the sale using domain logic
@@ -72,41 +67,6 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.CancelSale
             result.WasSuccessfullyCancelled = true;
 
             return result;
-        }
-
-        /// <summary>
-        /// Business logic to determine if a sale can be cancelled
-        /// </summary>
-        /// <param name="sale">The sale to check</param>
-        /// <returns>True if the sale can be cancelled</returns>
-        private static bool CanBeCancelled(Sale sale)
-        {
-            // Business rules for cancellation:
-            // 1. Sale must be Active
-            // 2. Sale should not be older than 30 days (example business rule)
-            // 3. In a real scenario, you might check:
-            //    - Not invoiced
-            //    - Not shipped
-            //    - Not payment processed
-            //    - Customer approval, etc.
-
-            if (sale.Status != SaleStatus.Active)
-                return false;
-
-            // Example: Cannot cancel sales older than 30 days
-            var maxCancellationDays = 30;
-            var cancellationCutoff = DateTime.UtcNow.AddDays(-maxCancellationDays);
-
-            if (sale.SaleDate < cancellationCutoff)
-                return false;
-
-            // Add more business rules as needed
-            // For example:
-            // - Check if sale is invoiced (would require additional properties)
-            // - Check if payment is processed
-            // - Check if items are shipped
-
-            return true;
         }
     }
 }

@@ -25,8 +25,8 @@ public static class ModifySaleItemHandlerTestData
     private static readonly Faker<ModifySaleItemCommand> modifySaleItemCommandFaker = new Faker<ModifySaleItemCommand>()
         .RuleFor(c => c.SaleId, f => f.Random.Guid())
         .RuleFor(c => c.ItemId, f => f.Random.Guid())
-        .RuleFor(c => c.Quantity, f => f.Random.Bool(0.7f) ? f.Random.Int(1, 20) : null) // 70% chance
-        .RuleFor(c => c.UnitPrice, f => f.Random.Bool(0.7f) ? f.Random.Decimal(1, 1000) : null) // 70% chance
+        .RuleFor(c => c.Quantity, f => f.Random.Int(1, 20)) 
+        .RuleFor(c => c.UnitPrice, f => f.Random.Decimal(1, 1000)) 
         .RuleFor(c => c.Currency, f => "BRL");
 
     /// <summary>

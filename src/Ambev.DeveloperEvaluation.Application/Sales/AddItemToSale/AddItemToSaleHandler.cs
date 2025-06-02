@@ -1,5 +1,5 @@
-﻿using Ambev.DeveloperEvaluation.Domain.Enums;
-using Ambev.DeveloperEvaluation.Domain.Repositories;
+﻿using Ambev.DeveloperEvaluation.Domain.Repositories;
+using Ambev.DeveloperEvaluation.Domain.Specifications;
 using Ambev.DeveloperEvaluation.Domain.ValueObjects;
 using AutoMapper;
 using FluentValidation;
@@ -46,14 +46,13 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.AddItemToSale
             if (sale == null)
                 throw new KeyNotFoundException($"Sale with ID {command.SaleId} not found");
 
-            // Business rule: Can only add items to active sales
-            if (sale.Status == SaleStatus.Cancelled)
+            var saleIsActive = new SaleIsCancelledSpecification();
+            if (saleIsActive.IsSatisfiedBy(sale))
                 throw new InvalidOperationException($"Cannot add items to cancelled sale {sale.SaleNumber}");
 
-            // Check if product already exists in the sale
-            var existingItem = sale.Items.FirstOrDefault(item => item.Product.Id == command.Product.Id);
-            if (existingItem != null)
-                throw new InvalidOperationException($"Product {command.Product.Name} already exists in sale {sale.SaleNumber}. Use update endpoint to modify quantity");
+            var productExistsInSale = new ProductExistsInSaleSpecification(command.Product.Id);
+            if (productExistsInSale.IsSatisfiedBy(sale))
+                throw new InvalidOperationException($"Product {command.Product.Name} already exists in sale {sale.SaleNumber}. Use update endpoint to modify.");
 
             // Create Value Objects
             var productId = new ProductId(
