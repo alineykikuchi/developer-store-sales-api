@@ -1,0 +1,265 @@
+{
+	"info": {
+		"_postman_id": "4c7b8125-d2c8-4b5f-8010-b3632760e116",
+		"name": "Ambev.DeveloperEvaluation",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18990430"
+	},
+	"item": [
+		{
+			"name": "NewUser",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"akikuchi\",\r\n  \"password\": \"Teste@123\",\r\n  \"phone\": \"44988457756\",\r\n  \"email\": \"aline5@gmail.com\",\r\n  \"status\": 1,\r\n  \"role\": 3\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7181/api/Users",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7181",
+					"path": [
+						"api",
+						"Users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Auth",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"aline5@gmail.com\",\r\n  \"password\": \"Teste@123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7181/api/Auth",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7181",
+					"path": [
+						"api",
+						"Auth"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateSale",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"saleNumber\": \"SALE-2025-010\",\r\n  \"customer\": {\r\n    \"id\": \"550e8400-e29b-41d4-a716-446655440001\",\r\n    \"name\": \"Aline\",\r\n    \"email\": \"akikuchi@gmail.com\"\r\n  },\r\n  \"branch\": {\r\n    \"id\": \"550e8400-e29b-41d4-a716-446655440002\",\r\n    \"name\": \"Filial Centro - Aracaju\",\r\n    \"address\": \"Avenida Barão de Maruim, 123, Centro, Aracaju-SE\"\r\n  },\r\n  \"items\": [\r\n    {\r\n      \"productId\": \"550e8400-e29b-41d4-a716-446655440003\",\r\n      \"productName\": \"Smartphone Galaxy A54\",\r\n      \"productDescription\": \"Smartphone Samsung Galaxy A54 128GB 6GB RAM\",\r\n      \"quantity\": 2,\r\n      \"unitPrice\": 1299.99,\r\n      \"currency\": \"BRL\"\r\n    },\r\n    {\r\n      \"productId\": \"550e8400-e29b-41d4-a716-446655440004\",\r\n      \"productName\": \"Fone Bluetooth JBL\",\r\n      \"productDescription\": \"Fone de Ouvido Bluetooth JBL Tune 510BT\",\r\n      \"quantity\": 5,\r\n      \"unitPrice\": 149.90,\r\n      \"currency\": \"BRL\"\r\n    },\r\n    {\r\n      \"productId\": \"550e8400-e29b-41d4-a716-446655440005\",\r\n      \"productName\": \"Carregador USB-C\",\r\n      \"productDescription\": \"Carregador Rápido USB-C 25W Samsung\",\r\n      \"quantity\": 12,\r\n      \"unitPrice\": 79.99,\r\n      \"currency\": \"BRL\"\r\n    },\r\n    {\r\n      \"productId\": \"550e8400-e29b-41d4-a716-446655440006\",\r\n      \"productName\": \"Cabo HDMI\",\r\n      \"productDescription\": \"Cabo HDMI 2.0 4K Ultra HD 2 metros\",\r\n      \"quantity\": 3,\r\n      \"unitPrice\": 24.99,\r\n      \"currency\": \"BRL\"\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7181/api/sales",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7181",
+					"path": [
+						"api",
+						"sales"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetSale",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:7181/api/sales/408c64a4-0a34-4b58-bbf7-ed75838d4d9e",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7181",
+					"path": [
+						"api",
+						"sales",
+						"408c64a4-0a34-4b58-bbf7-ed75838d4d9e"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetSales",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:7181/api/sales?page=1&pageSize=10",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7181",
+					"path": [
+						"api",
+						"sales"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "pageSize",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CancelSale",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"cancellationReason\": \"teste de cancelamento\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7181/api/sales/408c64a4-0a34-4b58-bbf7-ed75838d4d9e/cancel",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7181",
+					"path": [
+						"api",
+						"sales",
+						"408c64a4-0a34-4b58-bbf7-ed75838d4d9e",
+						"cancel"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddItemToSale",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"product\": {\r\n    \"id\": \"789e1234-e56b-78c9-d012-345678901234\",\r\n    \"name\": \"Smartphone Galaxy S24\",\r\n    \"description\": \"Smartphone Samsung Galaxy S24 256GB 8GB RAM\"\r\n  },\r\n  \"quantity\": 2,\r\n  \"unitPrice\": 2499.99,\r\n  \"currency\": \"BRL\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7181/api/sales/cd92838b-763a-487f-9d12-f93c0547fedd/items",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7181",
+					"path": [
+						"api",
+						"sales",
+						"cd92838b-763a-487f-9d12-f93c0547fedd",
+						"items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ModifySaleItem",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"quantity\": 2,\r\n  \"unitPrice\": 15000.00,\r\n  \"currency\": \"BRL\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7181/api/sales/cd92838b-763a-487f-9d12-f93c0547fedd/items/33356db5-445d-41aa-a784-5d8fca9907f1",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7181",
+					"path": [
+						"api",
+						"sales",
+						"cd92838b-763a-487f-9d12-f93c0547fedd",
+						"items",
+						"33356db5-445d-41aa-a784-5d8fca9907f1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RemoveSaleItem",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:7181/api/sales/cd92838b-763a-487f-9d12-f93c0547fedd/items/33356db5-445d-41aa-a784-5d8fca9907f1",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7181",
+					"path": [
+						"api",
+						"sales",
+						"cd92838b-763a-487f-9d12-f93c0547fedd",
+						"items",
+						"33356db5-445d-41aa-a784-5d8fca9907f1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
