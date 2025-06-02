@@ -20,10 +20,9 @@ API REST desenvolvida para gerenciamento de **Vendas** e seus respectivos **Iten
   - Specification Pattern (regras de negócio reutilizáveis)
   - Mediator (via MediatR)
   - AutoMapper para conversões entre objetos
-  - Persistência com PostgreSQL
-
+- Persistência com PostgreSQL
 - Versionamento de código com Git e uso de commits semânticos
-- Correção configurações da Migration
+- Correção configurações da Migration (para que gere dentro do padrão estabelecido, projeto Ambev.DeveloperEvaluation.ORM)
 - Correção do enpoint de criação de usuário 
 - Correção do enpoint de autenticação do usuário 
 ---
