@@ -32,6 +32,7 @@ API REST desenvolvida para gerenciamento de **Vendas** e seus respectivos **Iten
 ### Pré-requisitos
 
 - .NET 8 SDK
+- EF Core CLI Tools
 - PostgreSQL instalado e rodando
 - Opcional: Ferramenta de administração (ex: pgAdmin, DBeaver)
 
