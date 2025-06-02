@@ -4,7 +4,7 @@ API REST desenvolvida para gerenciamento de **Vendas** e seus respectivos **Iten
 
 ---
 
-## ✅ O que foi concluido
+## O que foi concluído
 
 - Cadastro de venda com pelo menos um item
 - Adição, edição e remoção de itens da venda
@@ -27,7 +27,7 @@ API REST desenvolvida para gerenciamento de **Vendas** e seus respectivos **Iten
 - Correção do enpoint de autenticação do usuário 
 ---
 
-## 🔧 Requisitos e Configuração
+## Requisitos e Configuração
 
 ### Pré-requisitos
 
@@ -48,7 +48,7 @@ dotnet ef database update --project ../Ambev.DeveloperEvaluation.ORM --startup-p
 ```
 
 
-## 📦 Endpoints disponíveis (Swagger)
+## Endpoints disponíveis (Swagger)
 
 - `POST /api/Sales` - Criar nova venda (com ao menos 1 item)
 - `GET /api/Sales` - Listar todas as vendas
@@ -60,7 +60,7 @@ dotnet ef database update --project ../Ambev.DeveloperEvaluation.ORM --startup-p
 
 ---
 
-## 📌 Decisões e padrões adotados
+## Decisões e padrões adotados
 
 - `Sale` é a Aggregate Root de `SaleItem`, o que significa que todas as operações sobre os itens são feitas por meio da entidade principal, garantindo consistência.
 - Utilização de **Value Objects** para entidades externas (Customer, Branch, Product) conforme o padrão **External Identities com desnormalização**, otimizando leitura.
@@ -69,9 +69,9 @@ dotnet ef database update --project ../Ambev.DeveloperEvaluation.ORM --startup-p
 
 ---
 
-## 🛠️ Melhorias futuras (TODO)
+## Melhorias futuras (TODO)
 
-- Implementar controle de permissão para associar venda apenas a clientes válidos
+- Implementar controle de permissão para associar venda apenas a um perfil
 - Adicionar integração com MongoDB para logs
 - Criar testes de integração e e2e
 - **Implementar cache com Redis**
@@ -83,7 +83,7 @@ dotnet ef database update --project ../Ambev.DeveloperEvaluation.ORM --startup-p
 
 ---
 
-## ✍️ Desenvolvido por
+## Desenvolvido por
 
 Aline Yumi Kikuchi  
 Email: aline_y_kikuchi@hotmail.com
