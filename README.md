@@ -38,8 +38,8 @@ API REST desenvolvida para gerenciamento de **Vendas** e seus respectivos **Iten
 ### Configurar banco de dados
 
 1 - Criar um banco PostgreSQL 
-  Opção 1: Instalar manualmente o PostgreSQL localmente e criar um banco com o nome desejado
-  Opção 2: Usar Docker Compose executando o arquivo docker-compose.yml na raiz do projeto:
+  - `Opção 1:` Instalar manualmente o PostgreSQL localmente e criar um banco com o nome desejado
+  - `Opção 2:` Usar Docker Compose executando o arquivo docker-compose.yml na raiz do projeto:
   ```bash
   docker-compose up -d
   ```
