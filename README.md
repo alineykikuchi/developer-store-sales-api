@@ -14,6 +14,7 @@ API REST desenvolvida para gerenciamento de **Vendas** e seus respectivos **Iten
 - Aplicação automática de regras de desconto por quantidade
 - Middleware global de tratamento de exceções
 - Testes unitários com xUnit, NSubstitute e Bogus
+- Testes de integração com Testcontainers e Microsoft.AspNetCore.Mvc.Testing
 - Uso de padrões como:
   - Aggregate Root (Sale como raiz de SaleItem)
   - Value Objects (CustomerId, BranchId, ProductId, Money)
@@ -74,7 +75,7 @@ dotnet ef database update --project ../Ambev.DeveloperEvaluation.ORM --startup-p
 
 - Implementar controle de permissão nos endpoints de venda, permitindo que apenas usuários com perfil Customer ou Manager possam associar vendas.
 - Adicionar integração com MongoDB para logs
-- Criar testes de integração e e2e
+- Criar testes de e2e
 - Implementar cache com Redis
 - **Publicar eventos de domínio**:
   - SaleCreated
