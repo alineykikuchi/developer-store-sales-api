@@ -34,12 +34,17 @@ API REST desenvolvida para gerenciamento de **Vendas** e seus respectivos **Iten
 
 - .NET 8 SDK
 - EF Core CLI Tools
-- PostgreSQL instalado e rodando
 - Opcional: Ferramenta de administração (ex: pgAdmin, DBeaver)
 
 ### Configurar banco de dados
 
-1. Crie um banco de dados PostgreSQL com o nome desejado
+1 - Criar um banco PostgreSQL 
+  - `Opção 1:` Instalar manualmente o PostgreSQL localmente e criar um banco com o nome desejado
+  - `Opção 2:` Usar Docker Compose executando o arquivo docker-compose.yml na raiz do projeto:
+  ```bash
+  docker-compose up -d
+  ```
+
 2. Atualize a string de conexão no `appsettings.json` do projeto `Ambev.DeveloperEvaluation.WebApi`
 3. Aplique as migrations:
 
@@ -82,6 +87,15 @@ dotnet ef database update --project ../Ambev.DeveloperEvaluation.ORM --startup-p
   - SaleModified
   - SaleCancelled
   - ItemCancelled
+
+---
+
+## Testes com Postman
+
+Este repositório contém uma coleção do Postman para mais testes da API.
+O arquivo da coleção está disponível na raiz do projeto:
+
+`Ambev.DeveloperEvaluation.postman_collection.json`
 
 ---
 
